@@ -1,0 +1,34 @@
+{
+  "manifest_version": 3,
+  "name": "Travis County PDF Downloader",
+  "version": "1.0",
+  "description": "Automatically downloads PDFs from Travis County court records",
+  "permissions": [
+    "downloads",
+    "storage",
+    "tabs",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://odysseyweb.traviscountytx.gov/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://odysseyweb.traviscountytx.gov/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  }
+}

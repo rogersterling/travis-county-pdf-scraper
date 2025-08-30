@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Travis County PDF Downloader</title>
+    <style>
+        body {
+            width: 400px;
+            min-height: 500px;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        h1 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .section h2 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #ffd700;
+        }
+        
+        button {
+            width: 100%;
+            padding: 12px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(56, 239, 125, 0.4);
+        }
+        
+        .status {
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            text-align: center;
+            font-size: 12px;
+        }
+        
+        .info {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+        
+        .case-list {
+            max-height: 150px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 11px;
+        }
+        
+        .case-item {
+            padding: 5px;
+            margin: 3px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
+        .case-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        #analysis {
+            max-height: 200px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 11px;
+            font-family: monospace;
+            display: none;
+        }
+        
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid white;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <h1>⚖️ Travis County PDF Downloader</h1>
+    
+    <div class="section">
+        <h2>Current Page Actions</h2>
+        <button id="analyzePage" class="btn-secondary">🔍 Analyze Current Page</button>
+        <button id="highlightPDFs" class="btn-secondary">✨ Highlight PDF Elements</button>
+        <button id="downloadPDFs" class="btn-primary">📥 Download All PDFs on Page</button>
+        <div id="currentStatus" class="status"></div>
+    </div>
+    
+    <div class="section">
+        <h2>Batch Processing</h2>
+        <div class="info">
+            Process all 4 cases for MANCUSO, GIACOMO ANGELO
+        </div>
+        <button id="processAll" class="btn-success">🚀 Process All Cases</button>
+        <div class="case-list">
+            <div class="case-item">📁 C-1-CR-25-209558 (County Court #3)</div>
+            <div class="case-item">📁 D-1-DC-25-206308 (331st District)</div>
+            <div class="case-item">📁 D-1-DC-25-301278 (331st District)</div>
+            <div class="case-item">📁 C-1-CR-25-150156 (County Court #5)</div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>Page Analysis</h2>
+        <button id="toggleAnalysis" class="btn-secondary">📊 Show/Hide Analysis</button>
+        <div id="analysis"></div>
+    </div>
+    
+    <div class="section">
+        <h2>Download History</h2>
+        <div id="downloadHistory" class="status">No downloads yet</div>
+    </div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>

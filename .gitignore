@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# Chrome Extension development
+*.pem
+*.crx
+
+# Debug and output files
+debug_output/
+court_records/
+*.log
+
+# PDFs (sensitive court documents)
+*.pdf
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Selenium
+chromedriver
+geckodriver
+
+# Screenshots
+*.png
+
+# Environment variables
+.env
