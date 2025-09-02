@@ -1,6 +1,15 @@
 // Popup script for user interface
 console.log('Popup script loaded');
 
+// Travis County search page URL
+const TRAVIS_COUNTY_SEARCH_URL = 'https://odysseyweb.traviscountytx.gov/Portal/Home/Dashboard/29';
+
+// Navigate to Travis County search page
+document.getElementById('goToSearch').addEventListener('click', () => {
+    chrome.tabs.create({ url: TRAVIS_COUNTY_SEARCH_URL });
+    window.close(); // Close the popup after opening the tab
+});
+
 // Update status display
 function updateStatus(message, isError = false) {
     const statusDiv = document.getElementById('currentStatus');

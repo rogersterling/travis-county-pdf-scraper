@@ -1,9 +1,16 @@
 // Background service worker for managing downloads and storage
 console.log('Travis County PDF Downloader - Background Script Loaded');
 
+// Travis County search page URL
+const TRAVIS_COUNTY_SEARCH_URL = 'https://odysseyweb.traviscountytx.gov/Portal/Home/Dashboard/29';
+
 // Storage for tracking downloads
 let downloadTracker = {};
 let caseData = {};
+
+// Note: Since we have a popup defined in manifest.json, clicking the icon will show the popup
+// To navigate to Travis County, users can click the button in the popup
+// Or we can add a listener for when popup opens to check if we should navigate
 
 // Initialize storage
 chrome.storage.local.get(['downloadHistory', 'caseData'], (result) => {
