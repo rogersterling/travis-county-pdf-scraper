@@ -1,113 +1,144 @@
-# Travis County PDF Scraper
+# Travis County Court Records Scraper
 
-Automated tools for downloading PDF documents from Travis County court records system.
+A comprehensive solution for extracting court records from the Travis County Odyssey Portal, including both PDF downloads and text content extraction to Markdown format.
 
-## Overview
+## 🎯 Purpose
 
-This repository contains two solutions for automatically downloading PDFs from the Travis County Odyssey Portal:
+This tool automates the extraction of court records from Travis County's online system, capturing:
+- PDF documents (when available)
+- Full text content of court proceedings as Markdown files
+- Structured case information including parties, events, and case status
 
-1. **Python Selenium Scraper** - Automated browser scraping with multiple detection strategies
-2. **Chrome Extension** - Direct browser integration for reliable PDF downloads
+## ✨ Features
 
-## Features
+- **Dual Extraction**: Downloads PDFs when available AND captures page text as Markdown
+- **Chrome Extension**: Quick navigation to Travis County search page with PDF download tools
+- **Structured Output**: Organized folder structure by case number
+- **Comprehensive Logging**: Detailed logs and debug output for troubleshooting
+- **Screenshot Capture**: Visual record of each processed page
 
-- 🔍 Multiple PDF detection strategies
-- 📥 Automatic download handling
-- 📁 Organized file structure by case number
-- 🐛 Debug mode with screenshots and HTML capture
-- 🔄 Batch processing for multiple cases
-- 🌐 Network interception for PDF URL capture
+## 📁 Project Structure
 
-## Installation
+```
+├── travis_scraper_with_markdown.py  # Main scraper (recommended)
+├── travis_pdf_extension/            # Chrome extension for manual PDF downloads
+│   ├── manifest.json
+│   ├── content.js
+│   ├── background.js
+│   ├── popup.html
+│   └── popup.js
+├── court_records/                   # Output directory
+│   └── MANCUSO_GIACOMO_ANGELO/     # Organized by defendant name
+│       ├── [CASE-NUMBER]/
+│       │   ├── [CASE]_court_record.md    # Extracted text content
+│       │   ├── [CASE]_raw_content.json   # Raw JSON data
+│       │   └── documents/                # PDFs (if available)
+└── debug_output/                    # Screenshots and debug files
+```
 
-### Python Scraper
+## 🚀 Quick Start
 
-1. Create a virtual environment:
+### Python Scraper (Recommended)
+
+1. **Setup Virtual Environment**:
 ```bash
 python3 -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
-2. Install dependencies:
+2. **Install Dependencies**:
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Run the scraper:
+3. **Run the Scraper**:
 ```bash
-python travis_advanced_pdf_scraper.py
+python travis_scraper_with_markdown.py
 ```
 
-### Chrome Extension
+### Chrome Extension (For Manual PDF Downloads)
 
 1. Open Chrome and navigate to `chrome://extensions/`
-2. Enable "Developer mode" in the top right
+2. Enable "Developer mode" (top-right toggle)
 3. Click "Load unpacked"
 4. Select the `travis_pdf_extension` folder
-5. The extension icon will appear in your toolbar
+5. Click the extension icon to navigate to Travis County search
 
-## Usage
+## 📊 Output
 
-### Python Scraper
+### Markdown Files
+Each case generates a structured Markdown file containing:
+- Case information (type, status, parties)
+- Case events timeline
+- Party details (defendants, attorneys)
+- Full page text content
 
-The scraper will:
-1. Navigate to each case URL
-2. Detect PDF download elements
-3. Click elements to trigger downloads
-4. Organize PDFs into folders by case number
-5. Generate debug output for troubleshooting
+Example: `D-1-DC-25-206308_court_record.md`
 
-### Chrome Extension
+### JSON Files
+Raw extracted data in JSON format for programmatic access.
 
-1. Navigate to a Travis County court case page
-2. Click the extension icon
-3. Use "Analyze Current Page" to detect PDFs
-4. Click "Download All PDFs on Page" to download
-5. Or use "Process All Cases" for batch processing
+### PDFs
+Downloaded to `documents/` subfolder when available on the court page.
 
-## Project Structure
+## 🔧 Configuration
 
-```
-├── travis_advanced_pdf_scraper.py    # Main Python scraper with network interception
-├── travis_district_court_scraper.py  # Focused scraper for District Court cases
-├── travis_pdf_extension/             # Chrome extension files
-│   ├── manifest.json                 # Extension configuration
-│   ├── content.js                    # Page interaction script
-│   ├── background.js                 # Download management
-│   ├── popup.html                    # Extension UI
-│   └── popup.js                      # UI logic
-├── debug_output/                     # Debug files (screenshots, HTML, logs)
-└── court_records/                    # Organized downloaded PDFs
+The scraper is pre-configured with specific case URLs. To modify:
+
+1. Edit the `cases` list in `travis_scraper_with_markdown.py`
+2. Add new cases with format:
+```python
+{
+    'case_number': 'CASE-NUMBER',
+    'url': 'https://odysseyweb.traviscountytx.gov/...'
+}
 ```
 
-## Debug Output
+## 📝 Example Output Structure
 
-The scraper creates debug files for troubleshooting:
-- `*_screenshot.png` - Page screenshots
-- `*_page.html` - Full page HTML
-- `*_clickables.json` - List of clickable elements
-- `*_pdf_urls.json` - Extracted PDF URLs
-- `*_tables.json` - Table structure data
+```
+court_records/
+└── MANCUSO_GIACOMO_ANGELO/
+    ├── C-1-CR-25-209558/
+    │   ├── C-1-CR-25-209558_court_record.md
+    │   ├── C-1-CR-25-209558_raw_content.json
+    │   └── documents/
+    │       └── C-1-CR-25-209558.pdf
+    └── D-1-DC-25-206308/
+        ├── D-1-DC-25-206308_court_record.md
+        └── D-1-DC-25-206308_raw_content.json
+```
 
-## Troubleshooting
+## ⚠️ Important Notes
 
-### No PDFs downloading?
-1. Check debug output for page structure
-2. Verify you're on the correct case page
-3. Try the Chrome extension as an alternative
-4. Check browser console for errors
+- District Court cases (D-1-DC-*) often don't have downloadable PDFs but text content is captured
+- County Court cases (C-1-CR-*) typically have PDFs available
+- The scraper requires Chrome/Chromium browser and ChromeDriver
+- All extracted content is saved locally - no data is sent externally
 
-### District Court cases not working?
-District Court pages may have different structure. Use the Chrome extension for better success rates.
+## 🐛 Troubleshooting
 
-## Legal Notice
+### No PDFs Downloaded?
+- District Court pages often don't have PDFs - check the Markdown file for text content
+- Check `debug_output/` for screenshots to verify page loaded correctly
+
+### ChromeDriver Issues?
+- Ensure ChromeDriver version matches your Chrome browser version
+- Download from: https://chromedriver.chromium.org/
+
+### Page Not Loading?
+- Check internet connection
+- Verify the case URLs are still valid
+- Review logs in `scraper_with_markdown.log`
+
+## 📜 Legal Notice
 
 This tool is for legitimate use only. Ensure you have proper authorization to access and download court records. Respect all terms of service and legal restrictions.
 
-## License
+## 🤝 Contributing
+
+Pull requests are welcome. For major changes, please open an issue first.
+
+## 📄 License
 
 MIT License - See LICENSE file for details
-
-## Contributing
-
-Contributions are welcome! Please submit pull requests or open issues for bugs and feature requests.
