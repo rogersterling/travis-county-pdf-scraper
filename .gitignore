@@ -35,8 +35,9 @@ Thumbs.db
 chromedriver
 geckodriver
 
-# Screenshots
+# Screenshots (but allow extension icons)
 *.png
+!travis_pdf_extension/icon*.png
 
 # Environment variables
 .env
